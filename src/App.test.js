@@ -4,7 +4,7 @@ import 'jest-localstorage-mock';
 import Enzyme, {mount, shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import {App} from './App';
-import {Link, NavLink, Redirect, Route} from "react-router-dom";
+import {BrowserRouter, Link, NavLink, Redirect, Route} from "react-router-dom";
 import {Dashboard} from "./Components/Dashboard";
 import {Books} from "./Components/Books";
 import {BookDetail} from "./Components/Bookdetail";
@@ -40,7 +40,6 @@ describe('links', () => {
   const navLinks = wrapper.find(NavLink);
 
   it('should use Navlinks instead of links', () => {
-    expect(links.length).toEqual(1);
     expect(navLinks.length >= 3).toBe(true);
   });
 
@@ -86,7 +85,7 @@ describe('Protected route', () => {
     expect(typeof ProtectedRoute).toEqual('function');
   });
 
-  test('If the user is authenticated it should return a Route rendering our component', () => {
+  test('If the user is authenticated it should return a Route', () => {
     const wrapper = shallow(<ProtectedRoute loggedIn={true}/>);
     expect(wrapper.find(Route).length).toEqual(1);
     expect(wrapper.find(Redirect).length).toEqual(0);
@@ -96,5 +95,35 @@ describe('Protected route', () => {
     const wrapper = shallow(<ProtectedRoute loggedIn={false}/>);
     expect(wrapper.find(Route).length).toEqual(0);
     expect(wrapper.find(Redirect).length).toEqual(1);
+  });
+
+
+  test('The route should render our component if the user is logged in', () => {
+    class MyComponent extends React.Component {
+      render(){
+        return <h1>Hello, world!</h1>;
+      }
+    }
+    const wrapper = mount(
+      <BrowserRouter>
+        <ProtectedRoute loggedIn={true} component={MyComponent}/>
+      </BrowserRouter>
+    );
+    expect(wrapper.find(MyComponent).length).toEqual(1);
+  });
+
+
+  test('The route should not render our component if the user is not logged in', () => {
+    class MyComponent extends React.Component {
+      render(){
+        return <h1>Hello, world!</h1>;
+      }
+    }
+    const wrapper = mount(
+      <BrowserRouter>
+        <ProtectedRoute loggedIn={false} component={MyComponent}/>
+      </BrowserRouter>
+    );
+    expect(wrapper.find(MyComponent).length).toEqual(0);
   });
 });
