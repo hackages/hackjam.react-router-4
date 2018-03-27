@@ -1,0 +1,11 @@
+.activeLink {
+    background-color: rgb(113, 182, 176);
+}
+
+nav {
+    background-color: #80cbcd;
+}
+
+.brand-logo > img {
+    height: 2em;
+}

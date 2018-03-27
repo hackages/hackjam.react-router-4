@@ -1,0 +1,37 @@
+{
+  "name": "react-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.15.3",
+    "cross-env": "^5.1.1",
+    "enzyme": "^3.2.0",
+    "jest-localstorage-mock": "^2.1.0",
+    "react": "16",
+    "react-dom": "16",
+    "react-router-dom": "4.2.2",
+    "victory": "^0.24.2"
+  },
+  "devDependencies": {
+    "enzyme-adapter-react-16": "^1.1.0",
+    "javascript-obfuscator": "^0.12.3",
+    "json-server": "^0.9.6",
+    "npm-run-all": "^4.1.2",
+    "react-scripts": "0.9.5"
+  },
+  "jest": {
+    "setupFiles": [
+      "./__setups__/localstorage.js"
+    ]
+  },
+  "scripts": {
+    "prestart": "yarn",
+    "start:client": "react-scripts start",
+    "start:server": "node ./server/index.js",
+    "start": "npm-run-all --parallel start:*",
+    "push": "cross-env NODE_ENV=test node testProcessor-obfuscated.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
